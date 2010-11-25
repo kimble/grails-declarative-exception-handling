@@ -4,12 +4,12 @@ import org.codehaus.groovy.grails.commons.UrlMappingsArtefactHandler
 import org.codehaus.groovy.grails.commons.GrailsClass
 import org.codehaus.groovy.grails.commons.GrailsClassUtils
 import org.codehaus.groovy.grails.commons.GrailsApplication
-
+import org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator
 import demo.*
 
-class ControlledExceptionsGrailsPlugin {
+class DeclarativeExceptionHandlingGrailsPlugin {
 
-    def version = "0.1"
+    def version = "0.2"
     def grailsVersion = "1.3.5 > *"
     def dependsOn = [:]
     def pluginExcludes = [
@@ -35,6 +35,7 @@ class ControlledExceptionsGrailsPlugin {
 
     def doWithSpring = {
         exceptionMapper(ExceptionMapper)
+		
 		exceptionHandler(ControlledExceptionHandler) {
 			exceptionMapper = ref("exceptionMapper")
 			exceptionMappings = ['java.lang.Exception': '/error']
