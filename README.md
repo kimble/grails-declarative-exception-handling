@@ -5,15 +5,37 @@ This is just an experimental Grails plugin.
 I never got any feedback at the [mailinglist](http://grails.1312388.n4.nabble.com/Best-practice-for-dealing-with-exceptions-in-controller-actions-td3057273.html) 
 when I asked for best practices regarding exception handling in controllers. The aim of this plugin is to reduce noise in controllers and make it easier to implement consistent error handling. 
 
+Goal: Make less noise
+---------------------
+
+    class FridgeController {
+    
+        def milkFactory // implements the interface Cow
+ 
+        // This is a lot of noise
+        def getMilk = {
+            def milk = null
+            try {
+                milk = milkFactory.getMilk()
+            } catch (NoMoreMilkException mex) {
+                redirect controller: 'shoppingList', action: 'addItem', params: [ item: 'milk' ]
+            } 
+            
+            [ milk: milk ]
+        }
+    
+    }
+
+
 Piggybacking on the UrlMappings plugin
 --------------------------------------
 
 The plugin will look for a static `exceptionMappings` closure in any of your `*UrlMappings` files. It will also pick up any changes in these files during development. 
 
-    class DemoUrlMappings {
+    class UrlMappings {
 
         static mappings = {
-            // ...
+            // Regular URL mappings still goes here..
         }
 
         static exceptionMappings = {
@@ -24,6 +46,18 @@ The plugin will look for a static `exceptionMappings` closure in any of your `*U
             }		
         }
 
+    }
+    
+    // A lot less noisy, does the same thing
+    class FridgeController {
+    
+        def milkFactory
+ 
+        def getMilk = {
+            def milk = milkFactory.getMilk()
+            [ milk: milk ]
+        }
+    
     }
 
 ### The name
