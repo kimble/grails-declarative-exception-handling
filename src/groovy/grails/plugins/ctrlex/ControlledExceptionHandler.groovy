@@ -43,6 +43,7 @@ class ControlledExceptionHandler extends GrailsExceptionResolver {
 		Map properties = ClosurePropertyReader.from(mapping.handler)
 		String controllerName = properties.remove("controller")
 		String actionName = properties.remove("action")
+		properties.exception = ex
 		
 		Map model = [ exception: ex ]
 		UrlMappingInfo info = new DefaultUrlMappingInfo(controllerName, actionName, null, properties, null, servletContext)
