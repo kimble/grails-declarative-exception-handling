@@ -23,6 +23,8 @@ class ControlledExceptionHandler extends GrailsExceptionResolver {
 	ExceptionMapper exceptionMapper
 	ServletContext servletContext
 	
+	ModelAndView emptyMv = new ModelAndView()
+	
 	@Override
 	public ModelAndView resolveException(HttpServletRequest request, 
 		HttpServletResponse response, Object handler, Exception ex) {
@@ -46,7 +48,7 @@ class ControlledExceptionHandler extends GrailsExceptionResolver {
 		UrlMappingInfo info = new DefaultUrlMappingInfo(controllerName, actionName, null, properties, null, servletContext)
 		WebUtils.forwardRequestForUrlMappingInfo(request, response, info, model, true)
 
-		return new ModelAndView()
+		return emptyMv
 	}
 
 	@Override

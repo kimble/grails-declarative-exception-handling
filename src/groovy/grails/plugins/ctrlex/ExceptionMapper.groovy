@@ -2,11 +2,16 @@ package grails.plugins.ctrlex
 
 import org.springframework.util.Assert;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * 
  * @author Kim A. Betti
  */
 class ExceptionMapper {
+	
+	private static final Log log = LogFactory.getLog(ExceptionMapper)
 	
 	List mappings = []
 
@@ -20,7 +25,8 @@ class ExceptionMapper {
 	void methodMissing(String mappingName, args) {
 		Assert.isTrue (args.length == 2, "Expected two arguments for $mappingName, "
 			+ "the first should be the exception and the last a closure defining the mapping")
-			
+		
+		log.debug "Adding exception mapping $mappingName"
 		mappings << new ExceptionMapping(name: mappingName, exceptionClass: args[0], handler: args[1])
 	}
 	

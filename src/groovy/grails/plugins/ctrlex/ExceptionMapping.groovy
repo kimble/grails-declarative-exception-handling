@@ -1,5 +1,9 @@
 package grails.plugins.ctrlex
 
+/**
+ * 
+ * @author Kim A. Betti
+ */
 class ExceptionMapping {
 	
 	String name

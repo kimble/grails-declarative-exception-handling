@@ -2,6 +2,10 @@ package grails.plugins.ctrlex
 
 import groovy.lang.Closure;
 
+/**
+ * 
+ * @author Kim A. Betti
+ */
 class ClosurePropertyReader {
 	
 	private Map _closureProperties = [:]

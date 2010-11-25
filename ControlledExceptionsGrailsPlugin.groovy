@@ -1,5 +1,9 @@
 import grails.plugins.ctrlex.ExceptionMapper;
 import grails.plugins.ctrlex.ControlledExceptionHandler;
+import org.codehaus.groovy.grails.commons.UrlMappingsArtefactHandler;
+import org.codehaus.groovy.grails.commons.GrailsClass;
+import org.codehaus.groovy.grails.commons.GrailsClassUtils
+
 import demo.*
 
 class ControlledExceptionsGrailsPlugin {
@@ -12,7 +16,7 @@ class ControlledExceptionsGrailsPlugin {
 			"**/demo/**"
     ]
 
-	def loadAfter = [ 'controllers' ] 
+	def loadAfter = [ 'controllers', 'urlMappings' ] 
 	
     def author = "Kim A. Betti"
     def authorEmail = "kim@developer-b.com"
@@ -37,24 +41,19 @@ class ControlledExceptionsGrailsPlugin {
 
     def doWithDynamicMethods = { ctx ->
         // TODO Implement registering dynamic methods to classes (optional)
+		
+		
     }
 
     def doWithApplicationContext = { applicationContext ->
+		def grailsApplication = applicationContext.getBean("grailsApplication")
+		def exceptionMapper = applicationContext.getBean("exceptionMapper")
 		
-		def mapper = applicationContext.getBean("exceptionMapper")
-		mapper.readExceptionMapping {
-			"no more milk" NoMoreMilkException, {
-				controller = "shoppingList"
-				action = "addItem"
-				item = "milk"
-			}
-			
-			"catch all" HumanRelatedException, {
-				controller = "human"
-				action = "problem"
-			}
+		grailsApplication.getArtefacts(UrlMappingsArtefactHandler.TYPE).each { GrailsClass gc ->
+			Class<?> urlMappingClass = gc.getClazz()
+			if (GrailsClassUtils.isStaticProperty(urlMappingClass, "exceptionMappings"))
+				exceptionMapper.readExceptionMapping urlMappingClass.exceptionMappings
 		}
-		
     }
 
     def onChange = { event ->
