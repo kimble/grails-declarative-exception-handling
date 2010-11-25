@@ -6,22 +6,22 @@ import groovy.lang.Closure;
  * 
  * @author Kim A. Betti
  */
-class ClosurePropertyReader {
+class ExceptionHandlerInvoker {
 	
 	private Map _closureProperties = [:]
 	
-	protected ClosurePropertyReader(Closure closure) {
+	protected ExceptionHandlerInvoker(Exception ex, Closure closure) {
 		closure.resolveStrategy = Closure.DELEGATE_ONLY
 		closure.delegate = this
-		closure.call()
+		closure.call(ex)
 	}
 	
 	public Map getClosureProperties() {
 		return _closureProperties
 	}
 
-	static Map<String, Object> from(Closure closure) {
-		ClosurePropertyReader closureReader = new ClosurePropertyReader(closure)
+	static Map<String, Object> invoke(Exception ex, Closure closure) {
+		ExceptionHandlerInvoker closureReader = new ExceptionHandlerInvoker(ex, closure)
 		return closureReader.getClosureProperties()
 	}
 	

@@ -40,7 +40,7 @@ class ControlledExceptionHandler extends GrailsExceptionResolver {
 	private ModelAndView resolveExceptionUsing(ExceptionMapping mapping, 
 		HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
 		
-		Map properties = ClosurePropertyReader.from(mapping.handler)
+		Map properties = ExceptionHandlerInvoker.from(mapping.handler)
 		String controllerName = properties.remove("controller")
 		String actionName = properties.remove("action")
 		properties.exception = ex

@@ -39,7 +39,7 @@ The plugin will look for a static `exceptionMappings` closure in any of your `*U
         }
 
         static exceptionMappings = {
-            "no more milk" NoMoreMilkException, {
+            "no more milk" NoMoreMilkException, { ex ->
                 controller = "shoppingList"
                 action = "addItem"
                 item = "milk"
