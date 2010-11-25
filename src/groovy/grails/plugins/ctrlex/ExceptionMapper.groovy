@@ -22,6 +22,11 @@ class ExceptionMapper {
 		return mappings
 	}
 	
+	void resetMappings() {
+		log.debug "Resetting exception mappings"
+		mappings = []
+	}
+	
 	void methodMissing(String mappingName, args) {
 		Assert.isTrue (args.length == 2, "Expected two arguments for $mappingName, "
 			+ "the first should be the exception and the last a closure defining the mapping")

@@ -22,11 +22,11 @@ class DemoUrlMappings {
 			item = "milk"
 		}
 		
-		"catch all" HumanRelatedException, {
+		"human related exception" HumanRelatedException, {
 			controller = "human"
 			action = "problem"
 		}
 		
 	}
-	
+	 
 }
