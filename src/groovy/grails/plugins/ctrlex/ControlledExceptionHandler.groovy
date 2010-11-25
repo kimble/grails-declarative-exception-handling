@@ -1,18 +1,16 @@
 package grails.plugins.ctrlex
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.ServletContext
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
 import org.codehaus.groovy.grails.web.errors.GrailsExceptionResolver
-import org.codehaus.groovy.grails.web.mapping.DefaultUrlMappingData;
-import org.codehaus.groovy.grails.web.mapping.DefaultUrlMappingInfo;
-import org.codehaus.groovy.grails.web.mapping.UrlMappingInfo;
-import org.codehaus.groovy.grails.web.util.WebUtils;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.web.context.ServletContextAware;
-import org.springframework.web.servlet.HandlerExceptionResolver;
-import org.springframework.web.servlet.ModelAndView;
+import org.codehaus.groovy.grails.web.mapping.DefaultUrlMappingInfo
+import org.codehaus.groovy.grails.web.mapping.UrlMappingInfo
+import org.codehaus.groovy.grails.web.util.WebUtils
+import org.springframework.web.context.ServletContextAware
+import org.springframework.web.servlet.HandlerExceptionResolver
+import org.springframework.web.servlet.ModelAndView
 
 /**
  * 
@@ -24,7 +22,7 @@ class ControlledExceptionHandler implements ServletContextAware, HandlerExceptio
 	ServletContext servletContext
 	HandlerExceptionResolver grailsExceptionResolver
 	
-	ModelAndView emptyMv = new ModelAndView()
+	private final ModelAndView emptyMv = new ModelAndView()
 	
 	@Override
 	public ModelAndView resolveException(HttpServletRequest request, 

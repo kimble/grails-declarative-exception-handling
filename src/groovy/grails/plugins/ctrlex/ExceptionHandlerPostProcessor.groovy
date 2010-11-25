@@ -12,7 +12,7 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
  */
 class ExceptionHandlerPostProcessor implements BeanPostProcessor {
 
-	private static final Log log = LogFactory.getLog(ExceptionHandlerPostProcessor)
+	private static final Log log = LogFactory.getLog(this)
 	
 	ControlledExceptionHandler controlledExceptionHandler
 	

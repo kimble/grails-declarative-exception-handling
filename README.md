@@ -1,12 +1,18 @@
-Declarative Exception Handling
+Declarative Exception Handling for Grails
 ==============================
 
-This is just an experimental Grails plugin. 
-I never got any feedback at the [mailinglist](http://grails.1312388.n4.nabble.com/Best-practice-for-dealing-with-exceptions-in-controller-actions-td3057273.html) 
-when I asked for best practices regarding exception handling in controllers. The aim of this plugin is to reduce noise in controllers and make it easier to implement consistent error handling. 
+Experimental Grails plugin implementing declarative exception handling. 
 
-Goal: Make less noise
----------------------
+I never got any feedback at the [mailinglist](http://grails.1312388.n4.nabble.com/Best-practice-for-dealing-with-exceptions-in-controller-actions-td3057273.html) when I asked for best practices regarding exception handling in controllers. The aim of this plugin is to reduce noise in controllers and make it easier to implement consistent error handling. 
+
+Design goal: Consistent error handling (with less noise)
+------------------------------------------------------------------------------
+
+A large part of my love for Groovy and Grails comes from how successfully they reduce Java boilerplate code while at the same time increase readability. This plugin is an attempt to remove some redundant code from controllers and make it easier to implement _consistent_ error handling. 
+
+It is already possible to [map exceptions to views or controller actions](http://grails.org/doc/latest/guide/single.html#6.4.4%20Mapping%20to%20Response%20Codes) in Grails, but it doesn't really do what I want. It only works for http 500 responses and the exception will be logged. There is no way (at least as far as I know) to actually __deal__ with exceptions that you're able to recover from. 
+
+It's obviously possible to deal with this using try / catch, but it's noisy and you'll probably implement exactly the same error handling for the same exceptions over and over again so it's not very dry. 
 
     class FridgeController {
     
@@ -27,8 +33,8 @@ Goal: Make less noise
     }
 
 
-Piggybacking on the UrlMappings plugin
---------------------------------------
+Example
+-------------
 
 The plugin will look for a static `exceptionMappings` closure in any of your `*UrlMappings` files. It will also pick up any changes in these files during development. 
 
@@ -54,8 +60,7 @@ The plugin will look for a static `exceptionMappings` closure in any of your `*U
         def milkFactory
  
         def getMilk = {
-            def milk = milkFactory.getMilk()
-            [ milk: milk ]
+            [ milk: milkFactory.getMilk() ]
         }
     
     }
@@ -72,9 +77,11 @@ The closure is executed when a rule matches an exception instance. You're expect
 Behind the scenes
 -----------------
 
-When the plugin is loaded (after the controllers plugin) it will replace the `exceptionHandler` bean. Any exceptions that doesn't match any of the rules will be sent to original exception handler. 
+Grails will construct the `exceptionHandler` bean as usual. A bean post processor replaces it with this plugin's implementation of `HandlerExceptionResolver` and passes it a reference to the original handler. Whenever an exception occur that doesn't match any of the exception mapping rules it will be passed to the original handler. 
+
+The plugin is piggybacking on the UrlMappings plugin. Changes to *UrlMappings.groovy will be picked up by this plugin as well. 
 
 Bugs
 ----
 
-It doesn't work after a container reload. I'm not sure why this happens. 
+It sometimes doesn't work after a container reload. I'm not sure why this happens. 
