@@ -1,5 +1,6 @@
 import grails.plugins.ctrlex.ExceptionMapper
 import grails.plugins.ctrlex.ControlledExceptionHandler
+import grails.plugins.ctrlex.ExceptionHandlerPostProcessor
 import org.codehaus.groovy.grails.commons.UrlMappingsArtefactHandler
 import org.codehaus.groovy.grails.commons.GrailsClass
 import org.codehaus.groovy.grails.commons.GrailsClassUtils
@@ -36,9 +37,12 @@ class DeclarativeExceptionHandlingGrailsPlugin {
     def doWithSpring = {
         exceptionMapper(ExceptionMapper)
 		
-		exceptionHandler(ControlledExceptionHandler) {
+		controlledExceptionHandler(ControlledExceptionHandler) {
 			exceptionMapper = ref("exceptionMapper")
-			exceptionMappings = ['java.lang.Exception': '/error']
+		}
+		
+		exceptionHandlerPostProcessor(ExceptionHandlerPostProcessor) {
+			controlledExceptionHandler = ref("controlledExceptionHandler")
 		}
     }
 
