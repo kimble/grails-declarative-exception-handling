@@ -26,6 +26,7 @@ It's obviously possible to deal with this using try / catch, but it's noisy and 
                 milk = milkFactory.getMilk()
             } catch (NoMoreMilkException mex) {
                 redirect controller: 'shoppingList', action: 'addItem', params: [ item: 'milk' ]
+                return
             } 
             
             [ milk: milk ]

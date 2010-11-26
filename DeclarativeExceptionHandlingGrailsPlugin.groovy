@@ -1,12 +1,6 @@
-import grails.plugins.ctrlex.ExceptionMapper
-import grails.plugins.ctrlex.ControlledExceptionHandler
-import grails.plugins.ctrlex.ExceptionHandlerPostProcessor
-import org.codehaus.groovy.grails.commons.UrlMappingsArtefactHandler
-import org.codehaus.groovy.grails.commons.GrailsClass
-import org.codehaus.groovy.grails.commons.GrailsClassUtils
-import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator
-import demo.*
+import org.codehaus.groovy.grails.commons.*
+import grails.plugins.ctrlex.*
 
 class DeclarativeExceptionHandlingGrailsPlugin {
 
